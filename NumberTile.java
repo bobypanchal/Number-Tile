@@ -54,7 +54,7 @@ public class NumberTile extends JFrame{
 			for(int j=0; j<3; j++){
 				button[i][j] = new JButton();
 				if(arr.get(i).get(j) != 0){
-					img = new ImageIcon("image\\" + arr.get(i).get(j) + ".png");
+					img = new ImageIcon(arr.get(i).get(j) + ".png");
 					button[i][j].setIcon(img);
 				}
 				center.add(button[i][j]);
