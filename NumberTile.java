@@ -51,6 +51,24 @@ public class NumberTile extends JFrame{
 
 		initilizeGame(0);
 		
+		for(int i=0; i<3; i++) {
+			for(int j=0; j<3; j++){
+				final int finalRow = i;
+				final int finalCol = j;
+				button[i][j].addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e){
+						change(finalRow, finalCol);
+					}
+				});
+			}
+		}
+		//Reset function
+		reset.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				initilizeGame(1);
+			}
+		});
+
 		setVisible(true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
@@ -84,24 +102,6 @@ public class NumberTile extends JFrame{
 				}
 			}
 		}
-		for(int i=0; i<3; i++) {
-			for(int j=0; j<3; j++){
-				final int finalRow = i;
-				final int finalCol = j;
-				button[i][j].addActionListener(new ActionListener(){
-					public void actionPerformed(ActionEvent e){
-						change(finalRow, finalCol);
-					}
-				});
-			}
-		}
-		//Reset function
-		reset.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				initilizeGame(1);
-			}
-		});
-
 	}
 
 	public void change(int i, int j) {
