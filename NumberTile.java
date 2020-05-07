@@ -35,7 +35,12 @@ public class NumberTile extends JFrame{
 		center.setSize(300,300);
 		center.setLayout(new GridLayout(3,3));
 		button = new JButton[3][3];
-
+		for(int i=0; i<3; i++) {
+			for(int j=0; j<3; j++){
+				button[i][j] = new JButton();
+				center.add(button[i][j]);
+			}
+		}		
 		//BOTTOM
 		bottom = new JPanel();
 		add(bottom, BorderLayout.SOUTH);
@@ -44,23 +49,41 @@ public class NumberTile extends JFrame{
 		bottom.add(countStep);
 		totalStep = 0;
 
-		//fist 8 button arr shuffle last add 0 for black button
-		List<Integer> tempArr = new ArrayList<>(Arrays.asList(0,1,2,3,4,5,6,7,8));
-		Collections.shuffle(tempArr);
-		for(int i=0; i<9; i=i+3)
-			arr.add(new ArrayList<Integer>(Arrays.asList(tempArr.get(i),tempArr.get(i+1),tempArr.get(i+2))));
+		initilizeGame(0);
+		
+		setVisible(true);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+	}
 
-		for(int i=0; i<3; i++) {
+	public void initilizeGame(int check){
+		countStep.setText("No. of Step : 0");
+		top.setBackground(null);
+		for(int i=0; i<3; i++){
 			for(int j=0; j<3; j++){
-				button[i][j] = new JButton();
-				if(arr.get(i).get(j) != 0){
-					img = new ImageIcon(arr.get(i).get(j) + ".png");
-					button[i][j].setIcon(img);
-				}
-				center.add(button[i][j]);
+				button[i][j].setEnabled(true);
 			}
 		}
-
+		List<Integer> temp = new ArrayList<>(Arrays.asList(0,1,2,3,4,5,6,7,8));
+		Collections.shuffle(temp);
+		int tempCount = 0;
+		for(int x=0; x<9; x=x+3){
+			if(check == 0)
+				arr.add(new ArrayList<Integer>(Arrays.asList(temp.get(x),temp.get(x+1),temp.get(x+2))));
+			else{
+				arr.set(tempCount, new ArrayList<Integer>(Arrays.asList(temp.get(x),temp.get(x+1),temp.get(x+2))));
+				tempCount++;
+			}
+		}
+		for(int i=0; i<3; i++) {
+			for(int j=0; j<3; j++){
+				if(arr.get(i).get(j) != 0){
+					img = new ImageIcon("image\\" + arr.get(i).get(j) + ".png");
+					button[i][j].setIcon(img);
+				} else{
+					button[i][j].setIcon(null);
+				}
+			}
+		}
 		for(int i=0; i<3; i++) {
 			for(int j=0; j<3; j++){
 				final int finalRow = i;
@@ -75,24 +98,10 @@ public class NumberTile extends JFrame{
 		//Reset function
 		reset.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				for(int i=0; i<3; i++){
-					for(int j=0; j<3; j++){
-						button[i][j].setIcon(null);
-						button[i][j].setEnabled(true);
-						final List<Integer> temp = new ArrayList<>(Arrays.asList(0,1,2,3,4,5,6,7,8));
-						Collections.shuffle(temp);
-						for(int x=0; x<9; x=x+3)
-							arr.add(new ArrayList<Integer>(Arrays.asList(temp.get(x),temp.get(x+1),temp.get(x+2))));
-						win.setText("GAME IS ON");
-						countStep.setText("No. of Step : 0");
-						top.setBackground(null);
-					}
-				}
+				initilizeGame(1);
 			}
 		});
-		
-		setVisible(true);
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
 	}
 
 	public void change(int i, int j) {
